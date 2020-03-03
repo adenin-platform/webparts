@@ -19,6 +19,7 @@ export interface IAssistantCardsWebPartProps {
   APIEndpoint: string;
   embedType: string;
   cardId: string;
+  cardStyle: string;
 }
 
 export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssistantCardsWebPartProps> {
@@ -46,7 +47,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
         if (this.properties.embedType == "card") {
           this.domElement.innerHTML = `
           <div class="${ styles.wrapper}">
-            <at-app-card name='${this.properties.cardId}' card-container-type='modal' box='none' push></at-app-card>
+            <at-app-card name='${this.properties.cardId}' card-container-type='modal' box='${this.properties.cardStyle}' push></at-app-card>
           </div>`;
         }
 
@@ -99,6 +100,17 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
                           }) :
                           this.emptyControl;
 
+    let cardStyleDropdown = (this.properties.embedType == 'card') ? 
+                          PropertyPaneDropdown('cardStyle', {
+                            label: "Card Style",
+                            options: [
+                              { key: 'none', text: 'No box'},
+                              { key: 'card', text: 'Card'}
+                            ],
+                            selectedKey: 'card',
+                          }) :
+                          this.emptyControl;
+
     return {
       pages: [
         {
@@ -122,6 +134,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
                   ]
                 }),
                 cardIdTextbox,
+                cardStyleDropdown,
               ]
             }
           ]
