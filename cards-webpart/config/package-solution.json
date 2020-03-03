@@ -3,9 +3,10 @@
   "solution": {
     "name": "cards-webpart-client-side-solution",
     "id": "9ff4e58a-ca71-4073-a24e-40fe62a64200",
-    "version": "1.0.0.0",
+    "version": "1.1.0.0",
     "includeClientSideAssets": true,
-    "isDomainIsolated": false
+    "isDomainIsolated": false,
+    "iconPath": "Images/AppIcon.png"
   },
   "paths": {
     "zippedPackage": "solution/cards-webpart.sppkg"
