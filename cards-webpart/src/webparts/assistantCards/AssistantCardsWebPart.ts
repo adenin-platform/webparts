@@ -2,8 +2,7 @@ import { Version, DisplayMode } from '@microsoft/sp-core-library';
 import { SPComponentLoader } from '@microsoft/sp-loader';
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField,
-  PropertyPaneToggle
+  PropertyPaneTextField
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -13,8 +12,6 @@ import * as strings from 'AssistantCardsWebPartStrings';
 
 export interface IAssistantCardsWebPartProps {
   APIEndpoint: string;
-  removePadding: boolean;
-  spPageContextInfo: boolean;
 }
 
 export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssistantCardsWebPartProps> {
@@ -22,21 +19,20 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   public render(): void {
 
     if (this.displayMode == DisplayMode.Read) {
-      if (this.properties.removePadding) {
-        let element = this.domElement.parentElement;
-        // check up to 5 levels up for padding and exit once found
-        for (let i = 0; i < 5; i++) {
-          const style = window.getComputedStyle(element);
-          const hasPadding = style.paddingTop !== "0px";
-          if (hasPadding) {
-            element.style.paddingTop = "0px";
-            element.style.paddingBottom = "0px";
-            element.style.marginTop = "0px";
-            element.style.marginBottom = "0px";
-          }
-          element = element.parentElement;
+      let element = this.domElement.parentElement;
+      // check up to 5 levels up for padding and exit once found
+      for (let i = 0; i < 5; i++) {
+        const style = window.getComputedStyle(element);
+        const hasPadding = style.paddingTop !== "0px";
+        if (hasPadding) {
+          element.style.paddingTop = "0px";
+          element.style.paddingBottom = "0px";
+          element.style.marginTop = "0px";
+          element.style.marginBottom = "0px";
         }
+        element = element.parentElement;
       }
+      
       if (this.properties.APIEndpoint) {
         this.domElement.innerHTML = `
         <script>
@@ -110,23 +106,6 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
                 })
               ]
             },
-            {
-              groupName: strings.WidgetConfigurationName,
-              groupFields: [
-                PropertyPaneToggle("removePadding", {
-                  label: "Remove top/bottom padding of web part container",
-                  checked: this.properties.removePadding,
-                  onText: "Remove padding",
-                  offText: "Keep padding"
-                }),
-                PropertyPaneToggle("spPageContextInfo", {
-                  label: "Enable classic _spPageContextInfo",
-                  checked: this.properties.spPageContextInfo,
-                  onText: "Enabled",
-                  offText: "Disabled"
-                })
-              ]
-            }
           ]
         }
       ]
@@ -168,10 +147,6 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   // Argument element is an element in the dom.
   private async executeScript(element: HTMLElement) {
     // Define global name to tack scripts on in case script to be loaded is not AMD/UMD
-
-    if (this.properties.spPageContextInfo && !window["_spPageContextInfo"]) {
-      window["_spPageContextInfo"] = this.context.pageContext.legacyPageContext;
-    }
 
     (<any>window).ScriptGlobal = {};
 
