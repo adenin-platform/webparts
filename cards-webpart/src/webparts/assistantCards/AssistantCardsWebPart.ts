@@ -2,10 +2,7 @@ import { Version, DisplayMode } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
-  PropertyPaneDropdown,
-  IPropertyPaneDropdownOption,
-  IPropertyPaneConditionalGroup,
-  IPropertyPaneField
+  PropertyPaneDropdown
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -23,6 +20,45 @@ export interface IAssistantCardsWebPartProps {
 }
 
 export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssistantCardsWebPartProps> {
+
+  public renderConfigMessage() {
+    let message = this.properties.APIEndpoint ? 
+    `<p class="${ styles.url}">Tenant URL: ${escape(this.properties.APIEndpoint)}</p>
+    <p class="${ styles.url}">Display mode: ${this.properties.embedType ? escape(this.properties.embedType) : "Not set"}</p>`
+    :
+    `<p class="${ styles.url}">Please configure your tenant URL in the webpart settings.</p>`;
+
+    return (`
+        <div class="${ styles.assistantCards}">
+          <div class="${ styles.container}">
+            <div class="${ styles.row}">
+              <div class="${ styles.column}">
+                <span class="${ styles.title}">Digital Assistant Cards Webpart</span>
+                ${message}
+              </div>
+            </div>
+          </div>
+        </div>`
+    );
+  }
+
+  public renderCard() {
+    if (this.properties.embedType == "card") {
+      return (`
+        <div class="${ styles.wrapper}">
+          <at-app-card name='${this.properties.cardId}' card-container-type='modal' box='${this.properties.cardStyle}' push></at-app-card>
+        </div>`
+      );
+    } else if (this.properties.embedType == "searchCard") {
+      return (`
+        <div class="${ styles.wrapper}">
+          <include-element id="intent-card" name="at-intent-card/at-intent-card.html" event-source-selector=".ms-SearchBox-field"></include-element>
+        </div>`
+      );
+    } else {
+      return null;
+    }
+  }
 
   public render(): void {
 
@@ -43,57 +79,22 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
       
       if (this.properties.APIEndpoint) {
         this.loadScript(this.properties.APIEndpoint);
-
-        if (this.properties.embedType == "card") {
-          this.domElement.innerHTML = `
-          <div class="${ styles.wrapper}">
-            <at-app-card name='${this.properties.cardId}' card-container-type='modal' box='${this.properties.cardStyle}' push></at-app-card>
-          </div>`;
-        }
-
-        if (this.properties.embedType == "searchCard") {
-          this.domElement.innerHTML = `
-          <div class="${ styles.wrapper}">
-            <include-element id="intent-card" name="at-intent-card/at-intent-card.html" event-source-selector=".ms-SearchBox-field"></include-element>
-          </div>`;
-        }
+        this.domElement.innerHTML = this.renderCard();
       } else {
-        this.domElement.innerHTML = `
-        <div class="${ styles.assistantCards}">
-          <div class="${ styles.container}">
-            <div class="${ styles.row}">
-              <div class="${ styles.column}">
-                <span class="${ styles.title}">Digital Assistant Cards Webpart</span>
-                <p class="${ styles.url}">Please configure your tenant URL in the webpart settings.</p>
-              </div>
-            </div>
-          </div>
-        </div>`;
+        this.domElement.innerHTML = this.renderConfigMessage();
       }
-
     } else {
-      this.domElement.innerHTML = `
-          <div class="${ styles.assistantCards}">
-            <div class="${ styles.container}">
-              <div class="${ styles.row}">
-                <div class="${ styles.column}">
-                  <span class="${ styles.title}">Digital Assistant Cards Webpart</span>
-                  <p class="${ styles.url}">Tenant URL: ${escape(this.properties.APIEndpoint)}</p>
-                  <p class="${ styles.url}">Display mode: ${escape(this.properties.embedType)}</p>
-                </div>
-              </div>
-            </div>
-          </div>`;
+      this.domElement.innerHTML = this.renderConfigMessage();
     }
-
   }
+
+
 
   protected get dataVersion(): Version {
     return Version.parse('1.0');
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-
     let cardIdTextbox = (this.properties.embedType == 'card') ? 
                           PropertyPaneTextField('cardId', {
                             label: "Card ID"
@@ -143,6 +144,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
     };
   }
 
+  // Implement Empty Control class for hidden IPropertyPaneFields
   private _emptyControl : EmptyControl = null;
 
   public get emptyControl(): EmptyControl {
@@ -152,7 +154,11 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
     return this._emptyControl;
   }
 
-  private loadScript(endpoint) {
+  // Load adenin Card components
+  private loadScript(endpoint:string) {
+    // Trim trailing slash from endpoint if present
+    endpoint = endpoint.replace(/\/$/, "");
+
     var contextLoader = () => {
       var script = document.createElement('script');
       script.src = 'https://components.adenin.com/components/at-app/at-app-context-es6.js';
