@@ -10,6 +10,12 @@ Cards can be displayed as persistent stand-alone Cards, or can be used in conjun
 
 ![drop](https://img.shields.io/badge/version-1.10.0-blue.svg)
 
+## Versioning
+
+Versioning is managed manually. When deploying a new version, ensure the version is updated using semantic versioning.
+
+The file containing version information is located at `cards-webpart/config/package-solution.json`.
+
 ## Preview the webpart
 
 * Clone this repository
