@@ -2,7 +2,7 @@
 
 # Digital Assistant Cards for SharePoint
 
-This client-side web part for SharePoint Online embeds Digital Assistant Cards into your SharePoint modern experience pages (SharePoint Online and SharePoint 2016+).
+This client-side web part for SharePoint Online embeds Digital Assistant Cards into your SharePoint modern experience pages.
 
 Cards can be displayed as persistent stand-alone Cards, or can be used in conjunction with the [PnP Modern Search Solution](https://github.com/microsoft-search/pnp-modern-search) to show relevant Cards in search results.
 
