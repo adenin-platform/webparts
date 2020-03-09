@@ -3,7 +3,7 @@
   "solution": {
     "name": "cards-webpart-client-side-solution",
     "id": "9ff4e58a-ca71-4073-a24e-40fe62a64200",
-    "version": "1.1.2",
+    "version": "1.2.0.0",
     "skipFeatureDeployment": true,
     "includeClientSideAssets": true,
     "isDomainIsolated": false,

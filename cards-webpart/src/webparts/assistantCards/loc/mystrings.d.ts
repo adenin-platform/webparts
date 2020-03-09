@@ -1,7 +1,7 @@
 declare interface IAssistantCardsWebPartStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
-  APIEndpointFieldLabel: string;
+  tenantIDFieldLabel: string;
   embedTypeDropdownLabel: string;
   embedTypeName: string;
 }

@@ -13,7 +13,7 @@ import * as strings from 'AssistantCardsWebPartStrings';
 import {EmptyControl} from './components/PropertyControls';
 
 export interface IAssistantCardsWebPartProps {
-  APIEndpoint: string;
+  tenantID: string;
   embedType: string;
   cardId: string;
   cardStyle: string;
@@ -22,18 +22,18 @@ export interface IAssistantCardsWebPartProps {
 export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssistantCardsWebPartProps> {
 
   public renderConfigMessage() {
-    let message = this.properties.APIEndpoint ? 
-    `<p class="${ styles.url}">Tenant URL: ${escape(this.properties.APIEndpoint)}</p>
+    let message = this.properties.tenantID ? 
+    `<p class="${ styles.url}">Tenant ID: ${escape(this.properties.tenantID)}</p>
     <p class="${ styles.url}">Display mode: ${this.properties.embedType ? escape(this.properties.embedType) : "Not set"}</p>`
     :
-    `<p class="${ styles.url}">Please configure your tenant URL in the webpart settings.</p>`;
+    `<p class="${ styles.url}">Please configure your tenant ID in the web part settings.</p>`;
 
     return (`
         <div class="${ styles.assistantCards}">
           <div class="${ styles.container}">
             <div class="${ styles.row}">
               <div class="${ styles.column}">
-                <span class="${ styles.title}">Digital Assistant Cards Webpart</span>
+                <span class="${ styles.title}">Digital Assistant Cards web part</span>
                 ${message}
               </div>
             </div>
@@ -77,8 +77,8 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
         element = element.parentElement;
       }
       
-      if (this.properties.APIEndpoint) {
-        this.loadScript(this.properties.APIEndpoint);
+      if (this.properties.tenantID) {
+        this.loadScript(this.properties.tenantID);
         this.domElement.innerHTML = this.renderCard();
       } else {
         this.domElement.innerHTML = this.renderConfigMessage();
@@ -119,8 +119,8 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('APIEndpoint', {
-                  label: strings.APIEndpointFieldLabel
+                PropertyPaneTextField('tenantID', {
+                  label: strings.tenantIDFieldLabel
                 })
               ]
             },
@@ -155,18 +155,28 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   }
 
   // Load adenin Card components
-  private loadScript(endpoint:string) {
+  private loadScript(tenantID:string) {
     // Trim trailing slash from endpoint if present
-    endpoint = endpoint.replace(/\/$/, "");
+    let endpoint = 'https://app.adenin.com/api-'+tenantID+'/session/myprofile';
 
     var contextLoader = () => {
+      window["Tangere"] = window["Tangere"] || {};
+      window["Tangere"].identity = {
+        session_service_url: endpoint,
+        client_id: "c44ce7b8-8f45-4ec6-9f7e-e4a80f9d8edc",
+        redirect_uri: "https://components.adenin.com/components/sso/passiveCallback.html",
+        authorization: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+        login_hint: window["_spPageContextInfo"].userPrincipalName,
+        token_issuer: "aad." + window["_spPageContextInfo"].aadTenantId
+      };
+
       var script = document.createElement('script');
-      script.src = 'https://components.adenin.com/components/at-app/at-app-context-es6.js';
-      script.id='at-app-context';
-      script.setAttribute('session-service-url', endpoint+'/session/myprofile');
+      script.src = 'https://components.adenin.com/components/at-app/at-app-context-oidc.js';
       script.async = true;
       document.head.appendChild(script);
     };
+
+    window["_spPageContextInfo"] = this.context.pageContext.legacyPageContext;
 
     if(document.readyState=="complete" ) {
       contextLoader();
