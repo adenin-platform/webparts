@@ -14,6 +14,7 @@ import {EmptyControl} from './components/PropertyControls';
 
 export interface IAssistantCardsWebPartProps {
   tenantID: string;
+  componentCDN: string;
   embedType: string;
   cardId: string;
   cardStyle: string;
@@ -24,6 +25,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   public renderConfigMessage() {
     let message = this.properties.tenantID ? 
     `<p class="${ styles.url}">Tenant ID: ${escape(this.properties.tenantID)}</p>
+    <p class="${ styles.url}">Component CDN URL: ${escape(this.properties.componentCDN ? this.properties.componentCDN : strings.defaultCDN )}</p>
     <p class="${ styles.url}">Display mode: ${this.properties.embedType ? escape(this.properties.embedType) : "Not set"}</p>`
     :
     `<p class="${ styles.url}">Please configure your tenant ID in the web part settings.</p>`;
@@ -78,7 +80,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
       }
       
       if (this.properties.tenantID) {
-        this.loadScript(this.properties.tenantID);
+        this.loadScript(this.properties.tenantID, this.properties.componentCDN);
         this.domElement.innerHTML = this.renderCard();
       } else {
         this.domElement.innerHTML = this.renderConfigMessage();
@@ -125,6 +127,14 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
               ]
             },
             {
+              groupName: strings.componentCDNName,
+              groupFields: [
+                PropertyPaneTextField('componentCDN', {
+                  label: strings.componentCDNFieldLabel
+                })
+              ]
+            },
+            {
               groupName: strings.embedTypeName,
               groupFields: [
                 PropertyPaneDropdown('embedType', {
@@ -155,8 +165,9 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   }
 
   // Load adenin Card components
-  private loadScript(tenantID:string) {
-    // Trim trailing slash from endpoint if present
+  private loadScript(tenantID:string, componentCDN: string) {
+    // Trim trailing slash from CDN if present
+    let cdnURL = componentCDN ? componentCDN.replace(/\/$/, "") : strings.defaultCDN;
     let endpoint = 'https://app.adenin.com/api-'+tenantID+'/session/myprofile';
 
     var contextLoader = () => {
@@ -164,14 +175,14 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
       window["Tangere"].identity = {
         session_service_url: endpoint,
         client_id: "c44ce7b8-8f45-4ec6-9f7e-e4a80f9d8edc",
-        redirect_uri: "https://components.adenin.com/components/sso/passiveCallback.html",
+        redirect_uri: cdnURL + "/components/sso/passiveCallback.html",
         authorization: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
         login_hint: window["_spPageContextInfo"].userPrincipalName,
         token_issuer: "aad." + window["_spPageContextInfo"].aadTenantId
       };
 
       var script = document.createElement('script');
-      script.src = 'https://components.adenin.com/components/at-app/at-app-context-oidc.js';
+      script.src = cdnURL+'/components/at-app/at-app-context-oidc.js';
       script.async = true;
       document.head.appendChild(script);
     };
