@@ -13,7 +13,7 @@ import * as strings from 'AssistantCardsWebPartStrings';
 import {EmptyControl} from './components/PropertyControls';
 
 export interface IAssistantCardsWebPartProps {
-  tenantID: string;
+  APIEndpoint: string;
   componentCDN: string;
   embedType: string;
   cardId: string;
@@ -23,12 +23,12 @@ export interface IAssistantCardsWebPartProps {
 export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssistantCardsWebPartProps> {
 
   public renderConfigMessage() {
-    let message = this.properties.tenantID ? 
-    `<p class="${ styles.url}">Tenant ID: ${escape(this.properties.tenantID)}</p>
+    let message = this.properties.APIEndpoint ? 
+    `<p class="${ styles.url}">Tenant URL: ${escape(this.properties.APIEndpoint)}</p>
     <p class="${ styles.url}">Component CDN URL: ${escape(this.properties.componentCDN ? this.properties.componentCDN : strings.defaultCDN )}</p>
     <p class="${ styles.url}">Display mode: ${this.properties.embedType ? escape(this.properties.embedType) : "Not set"}</p>`
     :
-    `<p class="${ styles.url}">Please configure your tenant ID in the web part settings.</p>`;
+    `<p class="${ styles.url}">Please configure your tenant URL in the web part settings.</p>`;
 
     return (`
         <div class="${ styles.assistantCards}">
@@ -79,8 +79,8 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
         element = element.parentElement;
       }
       
-      if (this.properties.tenantID) {
-        this.loadScript(this.properties.tenantID, this.properties.componentCDN);
+      if (this.properties.APIEndpoint) {
+        this.loadScript(this.properties.APIEndpoint, this.properties.componentCDN);
         this.domElement.innerHTML = this.renderCard();
       } else {
         this.domElement.innerHTML = this.renderConfigMessage();
@@ -121,8 +121,8 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('tenantID', {
-                  label: strings.tenantIDFieldLabel
+                PropertyPaneTextField('APIEndpoint', {
+                  label: strings.APIEndpointFieldLabel
                 })
               ]
             },
@@ -165,10 +165,10 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   }
 
   // Load adenin Card components
-  private loadScript(tenantID:string, componentCDN: string) {
+  private loadScript(APIEndpoint:string, componentCDN: string) {
     // Trim trailing slash from CDN if present
     let cdnURL = componentCDN ? componentCDN.replace(/\/$/, "") : strings.defaultCDN;
-    let endpoint = 'https://app.adenin.com/api-'+tenantID+'/session/myprofile';
+    let endpoint = APIEndpoint ? APIEndpoint.replace(/\/$/, "") + '/session/myprofile' : null;
 
     var contextLoader = () => {
       window["Tangere"] = window["Tangere"] || {};
