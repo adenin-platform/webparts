@@ -2,7 +2,8 @@ import { Version, DisplayMode } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField,
-  PropertyPaneDropdown
+  PropertyPaneDropdown,
+  PropertyPaneLabel
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -15,6 +16,7 @@ import {EmptyControl} from './components/PropertyControls';
 export interface IAssistantCardsWebPartProps {
   APIEndpoint: string;
   componentCDN: string;
+  componentClientID: string;
   embedType: string;
   cardId: string;
   cardStyle: string;
@@ -80,7 +82,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
       }
       
       if (this.properties.APIEndpoint) {
-        this.loadScript(this.properties.APIEndpoint, this.properties.componentCDN);
+        this.loadScript(this.properties.APIEndpoint, this.properties.componentCDN, this.properties.componentClientID);
         this.domElement.innerHTML = this.renderCard();
       } else {
         this.domElement.innerHTML = this.renderConfigMessage();
@@ -117,28 +119,29 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
     return {
       pages: [
         {
+          displayGroupsAsAccordion: true,
           groups: [
             {
               groupName: strings.BasicGroupName,
               groupFields: [
+                PropertyPaneLabel('label', {
+                  text: strings.APIEndpointFieldLabel,
+                  required: true
+                }),
                 PropertyPaneTextField('APIEndpoint', {
-                  label: strings.APIEndpointFieldLabel
-                })
-              ]
-            },
-            {
-              groupName: strings.componentCDNName,
-              groupFields: [
-                PropertyPaneTextField('componentCDN', {
-                  label: strings.componentCDNFieldLabel
+                  //label: strings.APIEndpointFieldLabel
                 })
               ]
             },
             {
               groupName: strings.embedTypeName,
               groupFields: [
+                PropertyPaneLabel('label', {
+                  text: strings.embedTypeDropdownLabel,
+                  required: true
+                }),
                 PropertyPaneDropdown('embedType', {
-                  label: strings.embedTypeDropdownLabel,
+                  label: null,
                   options: [
                     { key: 'searchCard', text: 'Search Result Card'},
                     { key: 'card', text: 'Card'}
@@ -146,8 +149,23 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
                 }),
                 cardIdTextbox,
                 cardStyleDropdown,
-              ]
-            }
+              ],
+            },
+            {
+              groupName: strings.componentConfigName,
+              groupFields: [
+                PropertyPaneLabel('label', {
+                  text: strings.leaveBlankForDefault,
+                }),
+                PropertyPaneTextField('componentCDN', {
+                  label: strings.componentCDNFieldLabel
+                }),
+                PropertyPaneTextField('componentClientID', {
+                  label: strings.componentClientIDFieldLabel
+                })
+              ],
+              isCollapsed: true,
+            },
           ]
         },
       ]
@@ -165,7 +183,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   }
 
   // Load adenin Card components
-  private loadScript(APIEndpoint:string, componentCDN: string) {
+  private loadScript(APIEndpoint:string, componentCDN: string, componentClientID: string) {
     // Trim trailing slash from CDN if present
     let cdnURL = componentCDN ? componentCDN.replace(/\/$/, "") : strings.defaultCDN;
     let endpoint = APIEndpoint ? APIEndpoint.replace(/\/$/, "") + '/session/myprofile' : null;
@@ -174,7 +192,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
       window["Tangere"] = window["Tangere"] || {};
       window["Tangere"].identity = {
         session_service_url: endpoint,
-        client_id: "c44ce7b8-8f45-4ec6-9f7e-e4a80f9d8edc",
+        client_id: componentClientID ? componentClientID : strings.defaultClientID,
         redirect_uri: cdnURL + "/components/sso/passiveCallback.html",
         authorization: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
         login_hint: window["_spPageContextInfo"].userPrincipalName,
