@@ -4,13 +4,17 @@ declare interface IAssistantCardsWebPartStrings {
   BasicGroupName: string;
   componentConfigName: string;
   componentClientIDName: string;
-  APIEndpointFieldLabel: string;
+  tenantURLLabel: string;
   componentCDNFieldLabel: string;
   componentClientIDFieldLabel: string;
   embedTypeDropdownLabel: string;
+  contextLoaderLabel: string;
+  customCSSLabel: string;
+  customCSSDescription: string;
   embedTypeName: string;
   defaultCDN: string;
   defaultClientID: string;
+  defaultContextLoader: string;
 }
 
 declare module 'AssistantCardsWebPartStrings' {

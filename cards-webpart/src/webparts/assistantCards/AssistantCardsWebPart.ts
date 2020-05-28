@@ -14,23 +14,25 @@ import * as strings from 'AssistantCardsWebPartStrings';
 import {EmptyControl} from './components/PropertyControls';
 
 export interface IAssistantCardsWebPartProps {
-  APIEndpoint: string;
+  tenantURL: string;
   componentCDN: string;
   componentClientID: string;
+  contextLoaderSrc: string;
   embedType: string;
   cardId: string;
   cardStyle: string;
+  customCSSClasses: string;
 }
 
 export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssistantCardsWebPartProps> {
 
   public renderConfigMessage() {
-    let message = this.properties.APIEndpoint ? 
-    `<p class="${ styles.url}">Tenant URL: ${escape(this.properties.APIEndpoint)}</p>
-    <p class="${ styles.url}">Component CDN URL: ${escape(this.properties.componentCDN ? this.properties.componentCDN : strings.defaultCDN )}</p>
-    <p class="${ styles.url}">Display mode: ${this.properties.embedType ? escape(this.properties.embedType) : "Not set"}</p>`
-    :
-    `<p class="${ styles.url}">Please configure your tenant URL in the web part settings.</p>`;
+    let message = this.properties.tenantURL ? 
+      `<p class="${ styles.url}">Tenant URL: ${escape(this.properties.tenantURL)}</p>
+      <p class="${ styles.url}">Display mode: ${this.properties.embedType ? escape(this.properties.embedType) : "Not set"}</p>
+      ${this.properties.componentCDN ? `<p class="${ styles.url}">Component CDN URL: ${this.properties.componentCDN}</p>` : ''}`
+      :
+      `<p class="${ styles.url}">Please configure your tenant URL in the web part settings.</p>`;
 
     return (`
         <div class="${ styles.assistantCards}">
@@ -49,14 +51,14 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   public renderCard() {
     if (this.properties.embedType == "card") {
       return (`
-        <div class="${ styles.wrapper}">
-          <at-app-card name='${this.properties.cardId}' card-container-type='modal' box='${this.properties.cardStyle}' push></at-app-card>
+        <div>
+          <at-app-card${this.properties.customCSSClasses ? ` class="${this.properties.customCSSClasses}"` : ''} name='${this.properties.cardId}' card-container-type='modal' box='${this.properties.cardStyle}' push></at-app-card>
         </div>`
       );
     } else if (this.properties.embedType == "searchCard") {
       return (`
-        <div class="${ styles.wrapper}">
-          <include-element id="intent-card" name="at-intent-card/at-intent-card.html" event-source-selector=".ms-SearchBox-field"></include-element>
+        <div>
+          <include-element id="intent-card" name="at-intent-card/at-intent-card.html"${this.properties.customCSSClasses ? ` class="${this.properties.customCSSClasses}"` : ''} event-source-selector=".ms-SearchBox-field"></include-element>
         </div>`
       );
     } else {
@@ -81,8 +83,8 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
         element = element.parentElement;
       }
       
-      if (this.properties.APIEndpoint) {
-        this.loadScript(this.properties.APIEndpoint, this.properties.componentCDN, this.properties.componentClientID);
+      if (this.properties.tenantURL) {
+        this.loadScript(this.properties.tenantURL, this.properties.componentCDN, this.properties.componentClientID, this.properties.contextLoaderSrc);
         this.domElement.innerHTML = this.renderCard();
       } else {
         this.domElement.innerHTML = this.renderConfigMessage();
@@ -125,17 +127,10 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
               groupName: strings.BasicGroupName,
               groupFields: [
                 PropertyPaneLabel('label', {
-                  text: strings.APIEndpointFieldLabel,
+                  text: strings.tenantURLLabel,
                   required: true
                 }),
-                PropertyPaneTextField('APIEndpoint', {
-                  //label: strings.APIEndpointFieldLabel
-                })
-              ]
-            },
-            {
-              groupName: strings.embedTypeName,
-              groupFields: [
+                PropertyPaneTextField('tenantURL', {}),
                 PropertyPaneLabel('label', {
                   text: strings.embedTypeDropdownLabel,
                   required: true
@@ -149,7 +144,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
                 }),
                 cardIdTextbox,
                 cardStyleDropdown,
-              ],
+              ]
             },
             {
               groupName: strings.componentConfigName,
@@ -162,6 +157,13 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
                 }),
                 PropertyPaneTextField('componentClientID', {
                   label: strings.componentClientIDFieldLabel
+                }),
+                PropertyPaneTextField('contextLoaderSrc', {
+                  label: strings.contextLoaderLabel
+                }),
+                PropertyPaneTextField('customCSSClasses', {
+                  label: strings.customCSSLabel,
+                  description: strings.customCSSDescription
                 })
               ],
               isCollapsed: true,
@@ -183,10 +185,11 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   }
 
   // Load adenin Card components
-  private loadScript(APIEndpoint:string, componentCDN: string, componentClientID: string) {
+  private loadScript(tenantURL:string, componentCDN: string, componentClientID: string, contextLoaderSrc: string) {
     // Trim trailing slash from CDN if present
     let cdnURL = componentCDN ? componentCDN.replace(/\/$/, "") : strings.defaultCDN;
-    let endpoint = APIEndpoint ? APIEndpoint.replace(/\/$/, "") + '/session/myprofile' : null;
+    let endpoint = tenantURL ? tenantURL.replace(/\/$/, "") + '/session/myprofile' : null;
+    let contextLoaderScript = contextLoaderSrc ? contextLoaderSrc.trim() :  strings.defaultContextLoader;
 
     var contextLoader = () => {
       window["Tangere"] = window["Tangere"] || {};
@@ -200,7 +203,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
       };
 
       var script = document.createElement('script');
-      script.src = cdnURL+'/components/at-app/at-app-context-oidc.js';
+      script.src = cdnURL+'/components/at-app/' + contextLoaderScript;
       script.async = true;
       document.head.appendChild(script);
     };
