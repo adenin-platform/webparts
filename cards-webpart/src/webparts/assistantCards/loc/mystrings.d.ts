@@ -15,6 +15,8 @@ declare interface IAssistantCardsWebPartStrings {
   defaultCDN: string;
   defaultClientID: string;
   defaultContextLoader: string;
+  defaultSearchCSSClasses: string;
+  defaultCardCSSClasses: string;
 }
 
 declare module 'AssistantCardsWebPartStrings' {
