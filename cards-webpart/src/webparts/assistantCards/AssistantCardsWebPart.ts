@@ -52,13 +52,13 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
     if (this.properties.embedType == "card") {
       return (`
         <div>
-          <at-app-card${this.properties.customCSSClasses ? ` class="${this.properties.customCSSClasses}"` : ''} name='${this.properties.cardId}' card-container-type='modal' box='${this.properties.cardStyle}' push></at-app-card>
+          <at-app-card${this.properties.customCSSClasses ? ` class="${this.properties.customCSSClasses}"` : ''} name='${this.properties.cardId}' card-container-type='modal' box='${this.properties.cardStyle}'></at-app-card>
         </div>`
       );
     } else if (this.properties.embedType == "searchCard") {
       return (`
         <div>
-          <include-element id="intent-card" name="at-intent-card/at-intent-card.html"${this.properties.customCSSClasses ? ` class="${this.properties.customCSSClasses}"` : ''} event-source-selector=".ms-SearchBox-field"></include-element>
+          <include-element id="intent-card" name="at-intent-card/at-intent-card.html"${this.properties.customCSSClasses ? ` class="${this.properties.customCSSClasses}"` : ''} event-source-selector=".ms-SearchBox-field" indicator></include-element>
         </div>`
       );
     } else {
@@ -192,6 +192,8 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
     let contextLoaderScript = contextLoaderSrc ? contextLoaderSrc.trim() :  strings.defaultContextLoader;
 
     var contextLoader = () => {
+      console.log("adenin webpart");
+
       window["Tangere"] = window["Tangere"] || {};
       window["Tangere"].identity = {
         session_service_url: endpoint,
