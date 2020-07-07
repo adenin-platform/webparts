@@ -11,11 +11,20 @@ import { escape } from '@microsoft/sp-lodash-subset';
 import styles from './AssistantCardsWebPart.module.scss';
 import * as strings from 'AssistantCardsWebPartStrings';
 
+// Default settings
+const defaultCDN: string = 'https://components.adenin.com/components';
+const defaultClientID: string = 'c44ce7b8-8f45-4ec6-9f7e-e4a80f9d8edc';
+const defaultSSOProviderID: string = '';
+const defaultContextLoader: string = '/at-app/at-app-context-oidc.js';
+const defaultSearchCSSClasses: string = 'loading sp_search';
+const defaultCardCSSClasses: string = 'loading webpart';
+
 import {EmptyControl} from './components/PropertyControls';
 
 export interface IAssistantCardsWebPartProps {
   tenantURL: string;
   componentCDN: string;
+  SSOProviderID: string;
   componentClientID: string;
   contextLoaderSrc: string;
   embedType: string;
@@ -52,13 +61,13 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
     if (this.properties.embedType == "card") {
       return (`
         <div>
-          <at-app-card class="${this.properties.customCSSClasses ? this.properties.customCSSClasses : strings.defaultCardCSSClasses}" name='${this.properties.cardId}' card-container-type='modal' box='${this.properties.cardStyle}'></at-app-card>
+          <at-app-card class="${this.properties.customCSSClasses ? this.properties.customCSSClasses : defaultCardCSSClasses}" name='${this.properties.cardId}' card-container-type='modal' box='${this.properties.cardStyle}'></at-app-card>
         </div>`
       );
     } else if (this.properties.embedType == "searchCard") {
       return (`
         <div>
-          <include-element id="intent-card" name="at-intent-card/at-intent-card.html" class="${this.properties.customCSSClasses ? this.properties.customCSSClasses : strings.defaultSearchCSSClasses}" event-source-selector=".ms-SearchBox-field" indicator></include-element>
+          <include-element id="intent-card" name="at-intent-card/at-intent-card.html" class="${this.properties.customCSSClasses ? this.properties.customCSSClasses : defaultSearchCSSClasses}" event-source-selector=".ms-SearchBox-field" indicator></include-element>
         </div>`
       );
     } else {
@@ -84,7 +93,7 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
       }
       
       if (this.properties.tenantURL) {
-        this.loadScript(this.properties.tenantURL, this.properties.componentCDN, this.properties.componentClientID, this.properties.contextLoaderSrc);
+        this.loadScript(this.properties.tenantURL, this.properties.componentCDN, this.properties.SSOProviderID, this.properties.componentClientID, this.properties.contextLoaderSrc);
         this.domElement.innerHTML = this.renderCard();
       } else {
         this.domElement.innerHTML = this.renderConfigMessage();
@@ -155,6 +164,9 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
                 PropertyPaneTextField('componentCDN', {
                   label: strings.componentCDNFieldLabel
                 }),
+                PropertyPaneTextField('SSOProviderID', {
+                  label: strings.componentSSOProviderIDFieldLabel
+                }),
                 PropertyPaneTextField('componentClientID', {
                   label: strings.componentClientIDFieldLabel
                 }),
@@ -185,11 +197,11 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
   }
 
   // Load adenin Card components
-  private loadScript(tenantURL:string, componentCDN: string, componentClientID: string, contextLoaderSrc: string) {
+  private loadScript(tenantURL:string, componentCDN: string, SSOProviderID: string, componentClientID: string, contextLoaderSrc: string) {
     // Trim trailing slash from CDN if present
-    let cdnURL = componentCDN ? componentCDN.replace(/\/$/, "") : strings.defaultCDN;
+    let cdnURL = componentCDN ? componentCDN.replace(/\/$/, "") : defaultCDN;
     let endpoint = tenantURL ? tenantURL.replace(/\/$/, "") + '/session/myprofile' : null;
-    let contextLoaderScript = contextLoaderSrc ? contextLoaderSrc.trim() :  strings.defaultContextLoader;
+    let contextLoaderScript = contextLoaderSrc ? contextLoaderSrc.trim() :  defaultContextLoader;
 
     var contextLoader = () => {
       console.log("adenin webpart");
@@ -197,15 +209,16 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
       window["Tangere"] = window["Tangere"] || {};
       window["Tangere"].identity = {
         session_service_url: endpoint,
-        client_id: componentClientID ? componentClientID : strings.defaultClientID,
-        redirect_uri: cdnURL + "/components/sso/passiveCallback.html",
+        provider_id: SSOProviderID ? SSOProviderID : defaultSSOProviderID,
+        client_id: componentClientID ? componentClientID : defaultClientID,
+        redirect_uri: cdnURL + "/sso/passiveCallback.html",
         authorization: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
         login_hint: window["_spPageContextInfo"].userPrincipalName,
         token_issuer: "aad." + window["_spPageContextInfo"].aadTenantId
       };
 
       var script = document.createElement('script');
-      script.src = cdnURL+'/components/at-app/' + contextLoaderScript;
+      script.src = cdnURL + contextLoaderScript;
       script.async = true;
       document.head.appendChild(script);
     };
