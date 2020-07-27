@@ -61,13 +61,19 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
     if (this.properties.embedType == "card") {
       return (`
         <div>
-          <at-app-card class="${this.properties.customCSSClasses ? this.properties.customCSSClasses : defaultCardCSSClasses}" name='${this.properties.cardId}' card-container-type='sp-card' box='${this.properties.cardStyle}'></at-app-card>
+          <at-app-card class="${this.properties.customCSSClasses ? this.properties.customCSSClasses : defaultCardCSSClasses}" name="${this.properties.cardId}" card-container-type="sp-card" box="${this.properties.cardStyle}"></at-app-card>
         </div>`
       );
     } else if (this.properties.embedType == "searchCard") {
       return (`
         <div>
           <include-element id="intent-card" name="at-intent-card/at-intent-card.html" class="${this.properties.customCSSClasses ? this.properties.customCSSClasses : defaultSearchCSSClasses}" card-container-type='sp-search' event-source-selector=".ms-SearchBox-field" indicator></include-element>
+        </div>`
+      );
+    } else if (this.properties.embedType == "board") {
+      return (`
+        <div>
+          <include-element id="board" name="at-card-board/at-card-board.html" class="${this.properties.customCSSClasses ? this.properties.customCSSClasses : defaultCardCSSClasses}"></include-element>
         </div>`
       );
     } else {
@@ -148,7 +154,8 @@ export default class AssistantCardsWebPart extends BaseClientSideWebPart<IAssist
                   label: null,
                   options: [
                     { key: 'searchCard', text: 'Search Result Card'},
-                    { key: 'card', text: 'Card'}
+                    { key: 'card', text: 'Card'},
+                    { key: 'board', text: 'Board'}
                   ]
                 }),
                 cardIdTextbox,

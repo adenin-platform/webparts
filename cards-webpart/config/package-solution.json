@@ -3,11 +3,18 @@
   "solution": {
     "name": "cards-webpart-client-side-solution",
     "id": "9ff4e58a-ca71-4073-a24e-40fe62a64200",
-    "version": "1.3.7.0",
+    "version": "1.3.8.0",
     "skipFeatureDeployment": true,
     "includeClientSideAssets": true,
     "isDomainIsolated": false,
-    "iconPath": "Images/AppIcon.png"
+    "iconPath": "Images/AppIcon.png",
+    "developer": {
+      "name": "adenin TECHNOLOGIES",
+      "websiteUrl": "https://www.adenin.com/",
+      "privacyUrl": "https://www.adenin.com/legal/privacy-policy/",
+      "termsOfUseUrl": "https://www.adenin.com/legal/terms-of-use/",
+      "mpnId": ""
+    }
   },
   "paths": {
     "zippedPackage": "solution/cards-webpart.sppkg"
