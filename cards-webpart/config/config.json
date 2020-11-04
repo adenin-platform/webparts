@@ -5,14 +5,14 @@
     "assistant-cards-web-part": {
       "components": [
         {
-          "entrypoint": "./lib/webparts/assistantCards/AssistantCardsWebPart.js",
-          "manifest": "./src/webparts/assistantCards/AssistantCardsWebPart.manifest.json"
+          "entrypoint": "./lib/webparts/adeninDigitalAssistant/DigitalAssistantCards.js",
+          "manifest": "./src/webparts/adeninDigitalAssistant/DigitalAssistantCards.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "AssistantCardsWebPartStrings": "lib/webparts/assistantCards/loc/{locale}.js"
+    "DigitalAssistantCardsStrings": "lib/webparts/adeninDigitalAssistant/loc/{locale}.js"
   }
 }

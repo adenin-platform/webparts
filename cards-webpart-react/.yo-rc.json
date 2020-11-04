@@ -2,9 +2,9 @@
   "@microsoft/generator-sharepoint": {
     "isCreatingSolution": true,
     "environment": "spo",
-    "version": "1.10.0",
-    "libraryName": "adenin-digital-assistant",
-    "libraryId": "9ff4e58a-ca71-4073-a24e-40fe62a64200",
+    "version": "1.11.0",
+    "libraryName": "cards-webpart-react",
+    "libraryId": "e33725d3-0a7e-43c9-980d-536876a75463",
     "packageManager": "npm",
     "isDomainIsolated": false,
     "componentType": "webpart"
