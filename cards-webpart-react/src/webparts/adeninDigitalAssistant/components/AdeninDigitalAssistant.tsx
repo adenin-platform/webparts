@@ -2,7 +2,8 @@ import * as React from 'react';
 import styles from './AdeninDigitalAssistant.module.scss';
 import { IAdeninDigitalAssistantProps } from './IAdeninDigitalAssistantProps';
 import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
-import { escape } from '@microsoft/sp-lodash-subset';
+import { Text } from 'office-ui-fabric-react/lib/Text';
+import { Placeholder } from "./Placeholder/Placeholder";
 import { DisplayMode } from '@microsoft/sp-core-library';
 import * as strings from 'AdeninDigitalAssistantWebPartStrings';
 
@@ -10,12 +11,28 @@ export default class AdeninDigitalAssistant extends React.Component<IAdeninDigit
   public render(): React.ReactElement<IAdeninDigitalAssistantProps> {
     let renderContent: JSX.Element = null;
 
-    if (this.props.displayMode === DisplayMode.Edit && !this.props.tenantURL) {
-      renderContent = <Card cardType={cardType.info}>{strings.ShowBlankEditMessage}</Card>;
+    if (this.props.displayMode === DisplayMode.Edit && (!this.props.tenantURL || !this.props.embedType)) {
+      renderContent = <Placeholder iconName='digital-assistant'
+                                   iconText='adenin Digital Assistant'
+                                   contentClassName={styles.placeholder}
+                                   description={strings.ShowBlankEditMessage}
+                                   configButtonLabel='Configure'
+                                   assistantButtonLabel='Open Digital Assistant'
+                                   onConfigure={this._onConfigure} />;
     } else if (this.props.displayMode === DisplayMode.Edit) {
-      renderContent = <Card cardType={cardType.info} tenantURL={this.props.tenantURL} embedType={this.props.embedType}/>;
+      renderContent = <Placeholder iconName='digital-assistant'
+                        iconText='adenin Digital Assistant'
+                        contentClassName={styles.placeholder}
+                        description={strings.ShowBlankEditMessage}
+                        apiURL={this.props.tenantURL}
+                        embedType={this.props.embedType}
+                        cardId={this.props.cardId}
+                        configButtonLabel='Configure'
+                        assistantButtonLabel='Open Digital Assistant'
+                        onConfigure={this._onConfigure} />;
     } else {
       // render the actual card here
+      renderContent = <Text>Hi, I'll be a card!</Text>;
     }
 
     if (this.props.displayMode === DisplayMode.Edit) {
@@ -23,23 +40,22 @@ export default class AdeninDigitalAssistant extends React.Component<IAdeninDigit
         <div className={ styles.adeninDigitalAssistant }>
           <WebPartTitle displayMode={this.props.displayMode} title={this.props.title} updateProperty={this.props.updateProperty} placeholder="Add a title"></WebPartTitle>
           <div className={ styles.container }>
-            <div className={ styles.row }>
-              <div className={ styles.column }>
-                <span className={ styles.title }>adenin Digital Assistant</span>
-                {renderContent};
-              </div>
-            </div>
+            {renderContent}
           </div>
         </div>
       );
     } else {
       // render the actual card content
-      return ( 
+      return (
         <div className={ styles.adeninDigitalAssistant }>
-          <WebPartTitle displayMode={this.props.displayMode} title={this.props.title} updateProperty={this.props.updateProperty} placeholder="Add a title"></WebPartTitle>);
-          {renderContent};
+          <WebPartTitle displayMode={this.props.displayMode} title={this.props.title} updateProperty={this.props.updateProperty} placeholder="Add a title"></WebPartTitle>
+          {renderContent}
         </div>
       );
     }
+  }
+
+  private _onConfigure = () => {
+    this.props.context.propertyPane.open();
   }
 }

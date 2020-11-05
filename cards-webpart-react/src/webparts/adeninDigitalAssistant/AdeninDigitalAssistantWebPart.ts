@@ -30,6 +30,7 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
       {
         title: this.properties.title,
         displayMode: this.displayMode,
+        context: this.context,
         updateProperty: (value: string) => {
           this.properties.title = value;
         },

@@ -1,0 +1,91 @@
+@import '~office-ui-fabric-react/dist/sass/References.scss';
+.placeholder {
+    display: flex;
+
+    .placeholderContainer {
+        align-items: center;
+        color: "[theme:neutralSecondary, default: #666666]";
+        background-color: "[theme:neutralLighter, default: #f4f4f4]";
+        width: 100%;
+        padding: 40px 0;
+
+        .placeholderHead {
+            color: "[theme:neutralPrimary, default: #333333]";
+
+            .placeholderHeadContainer {
+                height: 100%;
+                white-space: nowrap;
+                text-align: center;
+            }
+
+            .placeholderIcon {
+                display: inline-block;
+                vertical-align: middle;
+                white-space: normal;
+                width: 42px;
+                height: 42px;
+
+                > svg {
+                    border-radius: 50%;
+                }
+            }
+
+            .placeholderText {
+                display: inline;
+                vertical-align: middle;
+                white-space: normal;
+
+                @include ms-fontWeight-light;
+                @include ms-fontSize-xxl;
+
+                &.hide {
+                  display: none;
+                }
+            }
+        }
+
+        .placeholderDescription {
+            width: 65%;
+            vertical-align: middle;
+            margin: 24px auto auto;
+            text-align: center;
+
+            .placeholderDescriptionText {
+                color: "[theme:neutralSecondary, default: #666666]";
+                font-size: 17px;
+                display: inline-block;
+                font-weight: 100;
+            }
+
+            button + button {
+                margin-left: 17px;
+            }
+        }
+
+        .placeholderBlockDescription {
+            width: 65%;
+            vertical-align: middle;
+            margin: 24px auto auto;
+            text-align: left;
+
+            .placeholderDescriptionText {
+                color: "[theme:neutralSecondary, default: #666666]";
+                font-size: 17px;
+                display: block;
+                margin: 12px 0;
+                font-weight: 100;
+            }
+        }
+    }
+}
+
+[dir=ltr] .placeholder,
+[dir=rtl] .placeholder {
+    .placeholderContainer {
+        .placeholderHead {
+            .placeholderText {
+                padding-left: 15px;
+            }
+        }
+    }
+}

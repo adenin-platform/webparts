@@ -14,6 +14,7 @@ declare interface IAdeninDigitalAssistantWebPartStrings {
   customCSSLabel: string;
   customCSSDescription: string;
   embedTypeName: string;
+  ShowBlankEditMessage: string;
 }
 
 declare module 'AdeninDigitalAssistantWebPartStrings' {

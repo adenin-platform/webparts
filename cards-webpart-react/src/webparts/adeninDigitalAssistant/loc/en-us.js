@@ -15,5 +15,6 @@ define([], function() {
     "customCSSLabel": "CSS Classes",
     "customCSSDescription": "Space delimited",
     "embedTypeName": "Embed options",
+    "ShowBlankEditMessage": "Embed Digital Assistant Cards on pages and in search results. To get started, configure your API URL and choose what to show.",
   }
 });

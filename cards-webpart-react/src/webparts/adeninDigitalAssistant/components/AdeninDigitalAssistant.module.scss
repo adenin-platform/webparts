@@ -1,6 +1,10 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 
 .adeninDigitalAssistant {
+  .placeholder {
+    color: black;
+  }
+
   .container {
     max-width: 700px;
     margin: 0px auto;
@@ -9,8 +13,6 @@
   .row {
     @include ms-Grid-row;
     @include ms-fontColor-white;
-    background-color: $ms-color-themeDark;
-    padding: 20px;
   }
 
   .column {
