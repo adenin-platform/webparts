@@ -1,5 +1,6 @@
 define([], function() {
   return {
+    "propertyPaneDescription": "Connect your Digital Assistant to SharePoint and customize the way your Assistant appears.",
     "leaveBlankForDefault": "Leave blank to use default values",
     "PropertyPaneDescription": "Description",
     "BasicGroupName": "Settings",

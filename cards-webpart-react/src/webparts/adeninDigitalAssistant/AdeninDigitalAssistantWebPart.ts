@@ -13,6 +13,7 @@ import {EmptyControl} from './components/PropertyControls';
 import * as strings from 'AdeninDigitalAssistantWebPartStrings';
 import AdeninDigitalAssistant from './components/AdeninDigitalAssistant';
 import { IAdeninDigitalAssistantProps } from './components/IAdeninDigitalAssistantProps';
+import UserHelp from './components/UserHelp';
 
 // Default settings
 const defaultCDN: string = 'https://components.adenin.com/components';
@@ -75,7 +76,7 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
       pages: [
         {
           header: {
-            description: "Connect your Digital Assistant to SharePoint and customize the way your Assistant appears."
+            description: strings.propertyPaneDescription
           },
           displayGroupsAsAccordion: true,
           groups: [
@@ -104,6 +105,7 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
                 }),
                 cardIdTextbox,
                 cardStyleDropdown,
+                new UserHelp()
               ]
             },
             {

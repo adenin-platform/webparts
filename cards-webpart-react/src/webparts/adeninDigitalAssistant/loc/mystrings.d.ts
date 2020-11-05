@@ -1,4 +1,5 @@
 declare interface IAdeninDigitalAssistantWebPartStrings {
+  propertyPaneDescription: string;
   leaveBlankForDefault: string;
   PropertyPaneDescription: string;
   BasicGroupName: string;
