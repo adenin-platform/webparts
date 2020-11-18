@@ -11,7 +11,6 @@ declare interface IAdeninDigitalAssistantWebPartStrings {
   componentClientIDFieldLabel: string;
   componentSSOProviderIDFieldLabel: string;
   embedTypeDropdownLabel: string;
-  contextLoaderLabel: string;
   customCSSLabel: string;
   customCSSDescription: string;
   embedTypeName: string;

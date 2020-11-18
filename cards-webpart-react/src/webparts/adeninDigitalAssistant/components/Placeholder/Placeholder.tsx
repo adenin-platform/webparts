@@ -12,7 +12,7 @@ export class Placeholder extends React.Component<IPlaceholderProps> {
 
     private _openAssistantClick = (event?: React.MouseEvent<HTMLButtonElement>): void => {
       // open assistant in a new tab
-      window.open('https://app.adenin.com', "_blank");
+      window.open('https://app.adenin.com/App/Channels/?name=sharepoint-online-add-in', "_blank");
     }
 
     private registerAssistantIcon = (): void => {
@@ -22,21 +22,21 @@ export class Placeholder extends React.Component<IPlaceholderProps> {
             <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 190 190">
               <defs>
                 <linearGradient id="linear-gradient" x1="136.12" y1="87.85" x2="158.05" y2="105.95" gradientUnits="userSpaceOnUse">
-                  <stop offset=".01" stop-color="#817e7c" stop-opacity="0"/>
-                  <stop offset=".04" stop-color="#83817f" stop-opacity=".03"/>
-                  <stop offset=".07" stop-color="#898887" stop-opacity=".1"/>
-                  <stop offset=".1" stop-color="#929495" stop-opacity=".23"/>
-                  <stop offset=".14" stop-color="#9fa5a7" stop-opacity=".41"/>
-                  <stop offset=".18" stop-color="#afbbbf" stop-opacity=".63"/>
-                  <stop offset=".19" stop-color="#b4c2c7" stop-opacity=".7"/>
-                  <stop offset=".25" stop-color="#adbbc0" stop-opacity=".77"/>
-                  <stop offset=".39" stop-color="#a3b1b6" stop-opacity=".87"/>
-                  <stop offset=".54" stop-color="#a0aeb3" stop-opacity=".9"/>
-                  <stop offset=".6" stop-color="#a2b0b5" stop-opacity=".86"/>
-                  <stop offset=".68" stop-color="#a8b6bb" stop-opacity=".74"/>
-                  <stop offset=".78" stop-color="#b3c1c6" stop-opacity=".55"/>
-                  <stop offset=".79" stop-color="#b4c2c7" stop-opacity=".52"/>
-                  <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+                  <stop offset=".01" stopColor="#817e7c" stopOpacity="0"/>
+                  <stop offset=".04" stopColor="#83817f" stopOpacity=".03"/>
+                  <stop offset=".07" stopColor="#898887" stopOpacity=".1"/>
+                  <stop offset=".1" stopColor="#929495" stopOpacity=".23"/>
+                  <stop offset=".14" stopColor="#9fa5a7" stopOpacity=".41"/>
+                  <stop offset=".18" stopColor="#afbbbf" stopOpacity=".63"/>
+                  <stop offset=".19" stopColor="#b4c2c7" stopOpacity=".7"/>
+                  <stop offset=".25" stopColor="#adbbc0" stopOpacity=".77"/>
+                  <stop offset=".39" stopColor="#a3b1b6" stopOpacity=".87"/>
+                  <stop offset=".54" stopColor="#a0aeb3" stopOpacity=".9"/>
+                  <stop offset=".6" stopColor="#a2b0b5" stopOpacity=".86"/>
+                  <stop offset=".68" stopColor="#a8b6bb" stopOpacity=".74"/>
+                  <stop offset=".78" stopColor="#b3c1c6" stopOpacity=".55"/>
+                  <stop offset=".79" stopColor="#b4c2c7" stopOpacity=".52"/>
+                  <stop offset="1" stopColor="#fff" stopOpacity="0"/>
                 </linearGradient>
                 <linearGradient id="linear-gradient-2" x1="36.71" y1="87.34" x2="59.64" y2="105.48" href="#linear-gradient"/>
               </defs>

@@ -20,8 +20,7 @@ const defaultCDN: string = 'https://components.adenin.com/components';
 const defaultClientID: string = 'c44ce7b8-8f45-4ec6-9f7e-e4a80f9d8edc';
 const defaultSSOProviderID: string = '';
 const defaultContextLoader: string = '/at-app/at-app-context-oidc.js';
-const defaultSearchCSSClasses: string = 'loading sp_search';
-const defaultCardCSSClasses: string = 'loading webpart';
+const toasterTenantId: string = 'ce4cc661-4506-4d48-8c64-c5b090aa46fb';
 
 export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart<IAdeninDigitalAssistantProps> {
 
@@ -32,6 +31,7 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
         title: this.properties.title,
         displayMode: this.displayMode,
         context: this.context,
+        tenantId: this.context.pageContext.aadInfo ? this.context.pageContext.aadInfo.tenantId._guid : '',
         updateProperty: (value: string) => {
           this.properties.title = value;
         },
@@ -39,7 +39,6 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
         componentCDN: this.properties.componentCDN,
         SSOProviderID: this.properties.SSOProviderID,
         componentClientID: this.properties.componentClientID,
-        contextLoaderSrc: this.properties.contextLoaderSrc,
         embedType: this.properties.embedType,
         cardId: this.properties.cardId,
         cardStyle: this.properties.cardStyle,
@@ -71,6 +70,12 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
                               selectedKey: 'card',
                             }) :
                             this.emptyControl;
+    
+    let componentCDNTextbox = (this.properties.tenantId == toasterTenantId) ? 
+                              PropertyPaneTextField('componentCDN', {
+                                label: strings.componentCDNFieldLabel
+                              }) : 
+                              this.emptyControl;
 
     return {
       pages: [
@@ -98,7 +103,7 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
                 PropertyPaneDropdown('embedType', {
                   label: null,
                   options: [
-                    { key: 'searchCard', text: 'Search Result Card'},
+                    { key: 'searchCard', text: 'Search results'},
                     { key: 'card', text: 'Card'},
                     { key: 'board', text: 'Board'}
                   ]
@@ -115,8 +120,9 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
                 PropertyPaneLabel('label', {
                   text: strings.leaveBlankForDefault,
                 }),
-                PropertyPaneTextField('componentCDN', {
-                  label: strings.componentCDNFieldLabel
+                PropertyPaneTextField('customCSSClasses', {
+                  label: strings.customCSSLabel,
+                  description: strings.customCSSDescription
                 }),
                 PropertyPaneTextField('SSOProviderID', {
                   label: strings.componentSSOProviderIDFieldLabel
@@ -124,13 +130,7 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
                 PropertyPaneTextField('componentClientID', {
                   label: strings.componentClientIDFieldLabel
                 }),
-                PropertyPaneTextField('contextLoaderSrc', {
-                  label: strings.contextLoaderLabel
-                }),
-                PropertyPaneTextField('customCSSClasses', {
-                  label: strings.customCSSLabel,
-                  description: strings.customCSSDescription
-                })
+                componentCDNTextbox,
               ],
             },
           ]

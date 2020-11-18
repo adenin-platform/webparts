@@ -6,7 +6,6 @@ export interface IAdeninDigitalAssistantProps {
   componentCDN: string;
   SSOProviderID: string;
   componentClientID: string;
-  contextLoaderSrc: string;
   embedType: string;
   cardId: string;
   cardStyle: string;
@@ -14,5 +13,6 @@ export interface IAdeninDigitalAssistantProps {
   title: string;
   displayMode: DisplayMode;
   context: WebPartContext;
+  tenantId: string;
   updateProperty: (value: string) => void;
 }
