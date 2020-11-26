@@ -2,6 +2,7 @@ import * as React from 'react';
 import { IPlaceholderProps } from './IPlaceholderComponent';
 import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
 import { Icon } from 'office-ui-fabric-react/lib/components/Icon';
+import { setIconOptions } from 'office-ui-fabric-react/lib/Styling';
 import { registerIcons } from 'office-ui-fabric-react/lib/Styling';
 import styles from './Placeholder.module.scss';
 
@@ -16,6 +17,10 @@ export class Placeholder extends React.Component<IPlaceholderProps> {
     }
 
     private registerAssistantIcon = (): void => {
+      setIconOptions({
+        disableWarnings: true
+      });
+      
       registerIcons({
         icons: {
           'digital-assistant': (
@@ -55,7 +60,6 @@ export class Placeholder extends React.Component<IPlaceholderProps> {
     }
 
     public render(): React.ReactElement<IPlaceholderProps> {
-
       this.registerAssistantIcon();
 
       return (

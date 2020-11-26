@@ -15,6 +15,8 @@ declare interface IAdeninDigitalAssistantWebPartStrings {
   customCSSDescription: string;
   embedTypeName: string;
   ShowBlankEditMessage: string;
+  cardEmbedMessage: string;
+  searchEmbedMessage: string;
 }
 
 declare module 'AdeninDigitalAssistantWebPartStrings' {

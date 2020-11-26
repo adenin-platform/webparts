@@ -1,6 +1,6 @@
 {
   "name": "cards-webpart-react",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "main": "lib/index.js",
   "engines": {
@@ -13,15 +13,15 @@
   },
   "dependencies": {
     "@microsoft/sp-core-library": "1.11.0",
-    "@microsoft/sp-lodash-subset": "1.11.0",
-    "@microsoft/sp-office-ui-fabric-core": "1.11.0",
+    "@microsoft/sp-lodash-subset": "^1.11.0",
     "@microsoft/sp-property-pane": "1.11.0",
     "@microsoft/sp-webpart-base": "1.11.0",
     "@pnp/spfx-controls-react": "2.1.0",
-    "@uifabric/react-cards": "0.114.8",
+    "@pnp/spfx-property-controls": "2.1.1",
     "office-ui-fabric-react": "6.214.0",
     "react": "16.8.5",
-    "react-dom": "16.8.5"
+    "react-dom": "16.8.5",
+    "react-html-parser": "2.0.2"
   },
   "devDependencies": {
     "@microsoft/rush-stack-compiler-3.3": "0.3.5",

@@ -1,13 +1,14 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "cards-webpart-react-client-side-solution",
+    "name": "adenin-digital-assistant",
+    "title": "adenin Digital Assistant",
     "id": "e33725d3-0a7e-43c9-980d-536876a75463",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
-    "iconPath": "Images/AppIcon.png",
+    "iconPath": "AppIcon.png",
     "developer": {
       "name": "adenin TECHNOLOGIES",
       "websiteUrl": "https://www.adenin.com",
@@ -17,6 +18,6 @@
     }
   },
   "paths": {
-    "zippedPackage": "solution/cards-webpart-react.sppkg"
+    "zippedPackage": "solution/adenin-digital-assistant.sppkg"
   }
 }

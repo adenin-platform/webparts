@@ -11,9 +11,15 @@
       ]
     }
   },
-  "externals": {},
+  "externals": {
+    "tangere": {
+      "path": "https://components.adenin.com/components/at-app/at-app-context-oidc.js",
+      "globalName": "tangere"
+    }
+  },
   "localizedResources": {
     "AdeninDigitalAssistantWebPartStrings": "lib/webparts/adeninDigitalAssistant/loc/{locale}.js",
-    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
   }
 }
