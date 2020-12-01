@@ -28,7 +28,10 @@ declare module "react" {
 
 export class Card extends React.Component<IAdeninDigitalAssistantProps> {
 
-    //protected onInit(): void {
+    public state = {
+        searchBoxVisible: false,
+    };
+
     constructor(props) {
         super(props);
 
@@ -48,6 +51,20 @@ export class Card extends React.Component<IAdeninDigitalAssistantProps> {
     }
 
     public componentDidMount() {
+        var observer = new MutationObserver((mutations, me) => {
+            var searchbox = document.querySelector('.ms-SearchBox-field');
+            if (searchbox) {
+                console.log('found the searchbox');
+                me.disconnect();
+                this.setState({searchBoxVisible: true});
+            }
+        });
+          
+        observer.observe(document, {
+            childList: true,
+            subtree: true
+        });
+
         var loadScript = (src:string) => {
           var tag = document.createElement('script');
           tag.async = false;
@@ -73,7 +90,7 @@ export class Card extends React.Component<IAdeninDigitalAssistantProps> {
                 </div>
                 </ErrorBoundary>
             );
-        } else if (this.props.embedType == "searchCard") {
+        } else if (this.props.embedType == "searchCard" && this.state.searchBoxVisible) {
             return (
                 <ErrorBoundary>
                 <div>

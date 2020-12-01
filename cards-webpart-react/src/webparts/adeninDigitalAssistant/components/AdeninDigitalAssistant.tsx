@@ -9,7 +9,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import { DisplayMode } from '@microsoft/sp-core-library';
 import * as strings from 'AdeninDigitalAssistantWebPartStrings';
 
-export default class AdeninDigitalAssistant extends React.Component<IAdeninDigitalAssistantProps, {}> {
+export default class AdeninDigitalAssistant extends React.Component<IAdeninDigitalAssistantProps> {
 
   public render(): React.ReactElement<IAdeninDigitalAssistantProps> {
     let renderPlaceholder: JSX.Element = null;
