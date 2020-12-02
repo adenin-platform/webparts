@@ -95,6 +95,7 @@ export class Placeholder extends React.Component<IPlaceholderProps> {
                   ariaLabel={this.props.assistantButtonLabel}
                   onClick={this._openAssistantClick} />
               }
+              &nbsp;&nbsp;
               {
                 <PrimaryButton
                   text={this.props.configButtonLabel}

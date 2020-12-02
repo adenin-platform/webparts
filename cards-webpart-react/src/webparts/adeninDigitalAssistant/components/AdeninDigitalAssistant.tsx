@@ -18,7 +18,7 @@ export default class AdeninDigitalAssistant extends React.Component<IAdeninDigit
     if (this.props.displayMode === DisplayMode.Edit) {
       if ((!this.props.tenantURL || !this.props.embedType)) {
         renderPlaceholder = <Placeholder iconName='digital-assistant'
-                                     iconText='adenin Digital Assistant'
+                                     iconText='adenin&nbsp;Digital&nbsp;Assistant'
                                      contentClassName={styles.placeholder}
                                      description={strings.ShowBlankEditMessage}
                                      configButtonLabel='Configure'
@@ -26,7 +26,7 @@ export default class AdeninDigitalAssistant extends React.Component<IAdeninDigit
                                      onConfigure={this._onConfigure} />;
       } else {
         renderPlaceholder = <Placeholder iconName='digital-assistant'
-                                     iconText='adenin Digital Assistant'
+                                     iconText='adenin&nbsp;Digital&nbsp;Assistant'
                                      contentClassName={styles.placeholder}
                                      description={strings.ShowBlankEditMessage}
                                      apiURL={this.props.tenantURL}
@@ -39,7 +39,7 @@ export default class AdeninDigitalAssistant extends React.Component<IAdeninDigit
       
     } else if (this.props.displayMode === DisplayMode.Read && (!this.props.tenantURL || !this.props.embedType)) {
       renderPlaceholder = <Placeholder iconName='digital-assistant'
-                                     iconText='adenin Digital Assistant'
+                                     iconText='adenin&nbsp;Digital&nbsp;Assistant'
                                      contentClassName={styles.placeholder}
                                      description={strings.ShowBlankEditMessage}
                                      configButtonLabel='Configure'
