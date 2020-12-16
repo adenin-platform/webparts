@@ -17,6 +17,6 @@ define([], function() {
     "embedTypeName": "Embed options",
     "ShowBlankEditMessage": "Embed Digital Assistant Cards on pages and in search results. To get started, configure your API URL and choose what to show.",
     "cardEmbedMessage": "<a href=\"https://app.adenin.com/App/Cards\" target=\"_blank\" tabindex=\"-1\">Browse your installed Cards</a> in the admin area, then enter the Card's ID below.",
-    "searchEmbedMessage": "Showing Cards in search results requires a custom search page. <a href=\"https://app.adenin.com/App/Cards\" target=\"_blank\" tabindex=\"-1\">Learn how</a>.",
+    "searchEmbedMessage": "Showing Cards in search results requires a custom search page. <a href=\"https://www.adenin.com/support/knowledge-base/create-a-custom-sharepoint-search-page/\" target=\"_blank\" tabindex=\"-1\">Learn how</a>.",
   }
 });

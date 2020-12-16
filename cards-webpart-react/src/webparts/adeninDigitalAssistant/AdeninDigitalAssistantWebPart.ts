@@ -21,7 +21,7 @@ import { IAdeninDigitalAssistantProps } from './components/IAdeninDigitalAssista
 import UserHelp from './components/UserHelp';
 
 // Default settings
-const toasterTenantId: string = 'ce4cc661-4506-4d48-8c64-c5b090aa46fb';
+const adeninTenantId: string = 'ce4cc661-4506-4d48-8c64-c5b090aa46fb';
 
 export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart<IAdeninDigitalAssistantProps> {
 
@@ -46,7 +46,6 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
         customCSSClasses: this.properties.customCSSClasses,
       }
     );
-
     ReactDom.render(element, this.domElement);
   }
 
@@ -96,7 +95,7 @@ export default class AdeninDigitalAssistantWebPart extends BaseClientSideWebPart
                             }) :
                             this.emptyControl;
     
-    let componentCDNTextbox = (this.properties.tenantId == toasterTenantId) ? 
+    let componentCDNTextbox = ((this.context.pageContext.aadInfo ? this.context.pageContext.aadInfo.tenantId._guid : '') == adeninTenantId) ? 
                               PropertyPaneTextField('componentCDN', {
                                 label: strings.componentCDNFieldLabel
                               }) : 
