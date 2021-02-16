@@ -38,9 +38,11 @@ export class Card extends React.Component<IAdeninDigitalAssistantProps> {
         // set window variables
         console.log('setting window variables');
 
+        var testingEnvAPI = (localStorage.getItem("testingEnvAPI") && localStorage.getItem("testingEnvAPI").length > 0) ? localStorage.getItem("testingEnvAPI") : null;
+
         window["Tangere"] = window["Tangere"] || {};
         window["Tangere"].identity = {
-            session_service_url: this.props.tenantURL.trim().replace(/\/+$/, "") + '/session/myprofile',
+            session_service_url: (testingEnvAPI ? testingEnvAPI.trim().replace(/\/+$/, "") : this.props.tenantURL.trim().replace(/\/+$/, "")) + '/session/myprofile',
             provider_id: this.props.SSOProviderID ? this.props.SSOProviderID : defaultSSOProviderID,
             client_id: this.props.componentClientID ? this.props.componentClientID : defaultClientID,
             redirect_uri: (this.props.componentCDN ? this.props.componentCDN.trim().replace(/\/+$/, "") : defaultCDN) + "/sso/passiveCallback.html",
@@ -75,7 +77,7 @@ export class Card extends React.Component<IAdeninDigitalAssistantProps> {
     
         try {
             console.log('loading component script');
-            loadScript(this.props.componentCDN ? this.props.componentCDN.trim().replace(/\/+$/, "") : defaultCDN + '/at-app/at-app-context-oidc.js');
+            loadScript((this.props.componentCDN ? this.props.componentCDN.trim().replace(/\/+$/, "") : defaultCDN) + '/at-app/at-app-context-oidc.js');
         } catch (error) {
           throw new Error(error);
         }

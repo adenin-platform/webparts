@@ -29,7 +29,7 @@ export default class AdeninDigitalAssistant extends React.Component<IAdeninDigit
                                      iconText='adenin&nbsp;Digital&nbsp;Assistant'
                                      contentClassName={styles.placeholder}
                                      description={strings.ShowBlankEditMessage}
-                                     apiURL={this.props.tenantURL}
+                                     apiURL={this.props.tenantURL.trim()}
                                      embedType={this.props.embedType}
                                      cardId={this.props.cardId}
                                      configButtonLabel='Configure'
