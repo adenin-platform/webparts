@@ -41,15 +41,18 @@ export class Card extends React.Component<IAdeninDigitalAssistantProps> {
         var testingEnvAPI = (localStorage.getItem("testingEnvAPI") && localStorage.getItem("testingEnvAPI").length > 0) ? localStorage.getItem("testingEnvAPI") : null;
 
         window["Tangere"] = window["Tangere"] || {};
-        window["Tangere"].identity = {
-            session_service_url: (testingEnvAPI ? testingEnvAPI.trim().replace(/\/+$/, "") : this.props.tenantURL.trim().replace(/\/+$/, "")) + '/session/myprofile',
-            provider_id: this.props.SSOProviderID ? this.props.SSOProviderID : defaultSSOProviderID,
-            client_id: this.props.componentClientID ? this.props.componentClientID : defaultClientID,
-            redirect_uri: (this.props.componentCDN ? this.props.componentCDN.trim().replace(/\/+$/, "") : defaultCDN) + "/sso/passiveCallback.html",
-            authorization: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
-            login_hint: this.props.context.pageContext.user.loginName,
-            token_issuer: "aad." + (this.props.context.pageContext.aadInfo ? this.props.context.pageContext.aadInfo.tenantId._guid : '')
-        };
+
+        if (!window["Tangere"].identity) {
+            window["Tangere"].identity = {
+                session_service_url: (testingEnvAPI ? testingEnvAPI.trim().replace(/\/+$/, "") : this.props.tenantURL.trim().replace(/\/+$/, "")) + '/session/myprofile',
+                provider_id: this.props.SSOProviderID ? this.props.SSOProviderID : defaultSSOProviderID,
+                client_id: this.props.componentClientID ? this.props.componentClientID : defaultClientID,
+                redirect_uri: (this.props.componentCDN ? this.props.componentCDN.trim().replace(/\/+$/, "") : defaultCDN) + "/sso/passiveCallback.html",
+                authorization: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+                login_hint: this.props.context.pageContext.user.loginName,
+                token_issuer: "aad." + (this.props.context.pageContext.aadInfo ? this.props.context.pageContext.aadInfo.tenantId._guid : '')
+            };
+        }
     }
 
     public componentDidMount() {
