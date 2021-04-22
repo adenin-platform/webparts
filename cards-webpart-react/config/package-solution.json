@@ -4,7 +4,7 @@
     "name": "adenin-digital-assistant",
     "title": "adenin Digital Assistant",
     "id": "e33725d3-0a7e-43c9-980d-536876a75463",
-    "version": "1.0.5.0",
+    "version": "1.0.5.1",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

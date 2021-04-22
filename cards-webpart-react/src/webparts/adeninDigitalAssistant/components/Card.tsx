@@ -91,7 +91,7 @@ export class Card extends React.Component<IAdeninDigitalAssistantProps> {
             return (
                 <ErrorBoundary>
                 <div>
-                    <at-app-card class={this.props.customCSSClasses ? this.props.customCSSClasses : defaultCardCSSClasses} name={this.props.cardId} card-container-type="sp-card" box={this.props.cardStyle}></at-app-card>
+                    <at-app-card class={this.props.customCSSClasses ? this.props.customCSSClasses : defaultCardCSSClasses} style={{maxWidth: 450 + "px"}} name={this.props.cardId} card-container-type="sp-card" box={this.props.cardStyle}></at-app-card>
                 </div>
                 </ErrorBoundary>
             );
