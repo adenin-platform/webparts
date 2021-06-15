@@ -1,6 +1,6 @@
 {
   "name": "cards-webpart-react",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "main": "lib/index.js",
   "engines": {
@@ -18,6 +18,9 @@
     "@microsoft/sp-webpart-base": "1.11.0",
     "@pnp/spfx-controls-react": "2.1.0",
     "@pnp/spfx-property-controls": "2.1.1",
+    "adaptivecards": "^2.1.0",
+    "adaptivecards-templating": "^1.4.0",
+    "markdown-it": "^10.0.0",
     "office-ui-fabric-react": "6.214.0",
     "react": "16.8.5",
     "react-dom": "16.8.5",

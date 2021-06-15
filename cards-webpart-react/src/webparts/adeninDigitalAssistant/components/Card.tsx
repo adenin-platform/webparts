@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { IAdeninDigitalAssistantProps } from './IAdeninDigitalAssistantProps';
 import ErrorBoundary from "./ErrorBoundary";
+import * as AdaptiveCards from "adaptivecards";
+import * as ACData from "adaptivecards-templating";
+import * as markdownit from "markdown-it";
 
 const defaultSearchCSSClasses: string = 'loading sp_search';
 const defaultCardCSSClasses: string = 'loading webpart';
@@ -41,6 +44,9 @@ export class Card extends React.Component<IAdeninDigitalAssistantProps> {
         var testingEnvAPI = (localStorage.getItem("testingEnvAPI") && localStorage.getItem("testingEnvAPI").length > 0) ? localStorage.getItem("testingEnvAPI") : null;
 
         window["Tangere"] = window["Tangere"] || {};
+        window["AdaptiveCards"] = AdaptiveCards;
+        window["ACData"] = ACData;
+        window["markdownit"] = markdownit;
 
         if (!window["Tangere"].identity) {
             window["Tangere"].identity = {
