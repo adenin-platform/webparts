@@ -15,7 +15,15 @@
     "adaptive-expressions": "node_modules/adaptive-expressions/",
     "adaptivecards-templating": "node_modules/adaptivecards-templating/dist/adaptivecards-templating.min.js",
     "adaptivecards": "node_modules/adaptivecards/dist/adaptivecards.min.js",
-    "markdown-it": "node_modules/markdown-it/dist/markdown-it.min.js"
+    "markdown-it": "node_modules/markdown-it/dist/markdown-it.min.js",
+    "react": {
+      "path": "//",
+      "globalName": "React"
+    },
+    "react-dom": {
+      "path": "//",
+      "globalName": "ReactDOM"
+    }
   },
   "localizedResources": {
     "AdeninDigitalAssistantWebPartStrings": "lib/webparts/adeninDigitalAssistant/loc/{locale}.js",
