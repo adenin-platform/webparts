@@ -20,7 +20,7 @@
     "@pnp/spfx-property-controls": "2.1.1",
     "adaptivecards": "^2.1.0",
     "adaptivecards-templating": "^1.4.0",
-    "markdown-it": "^10.0.0",
+    "markdown-it": "^12.3.2",
     "office-ui-fabric-react": "6.214.0",
     "react": "16.8.5",
     "react-dom": "16.8.5",
